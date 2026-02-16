@@ -1,0 +1,7 @@
+{
+  "name": "Rentacar_Ionic",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
