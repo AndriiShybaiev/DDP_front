@@ -1,17 +1,46 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/tab1"></ion-back-button>
+    </ion-buttons>
     <ion-title>
-      Tab 3
+      Detalles de Reserva
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 3</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <div *ngIf="reserva">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Reserva #{{ reserva.id }}</ion-card-title>
+        <ion-card-subtitle>Estado: {{ getEstadoReserva(reserva.estado) }}</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        <p><strong>Desde:</strong> {{ reserva.inicio | date:'short' }}</p>
+        <p><strong>Hasta:</strong> {{ reserva.final | date:'short' }}</p>
+      </ion-card-content>
+    </ion-card>
 
-  <app-explore-container name="Tab 3 page"></app-explore-container>
+    <ion-list-header>
+      <ion-label color="primary">Coches Reservados</ion-label>
+    </ion-list-header>
+
+    <ion-list>
+      <ion-item *ngFor="let coche of reserva.coches">
+        <ion-icon name="car-outline" slot="start"></ion-icon>
+        <ion-label>
+          <h2>Licencia: {{ coche.numLicencia }}</h2>
+          <p>Categoría: {{ getCategoriaCoche(coche.categoria) }}</p>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+  </div>
+
+  <div *ngIf="!reserva" class="ion-padding ion-text-center">
+    <ion-text color="medium">
+      <p>No se ha seleccionado ninguna reserva.</p>
+    </ion-text>
+    <ion-button routerLink="/tabs/tab1">Volver al Perfil</ion-button>
+  </div>
 </ion-content>

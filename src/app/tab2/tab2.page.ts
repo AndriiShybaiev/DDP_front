@@ -1,4 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { Factura, Linea } from '../models/cliente.model';
+import { StorageService } from '../services/storage.service';
 
 @Component({
   selector: 'app-tab2',
@@ -6,8 +9,24 @@ import { Component } from '@angular/core';
   styleUrls: ['tab2.page.scss'],
   standalone: false,
 })
-export class Tab2Page {
+export class Tab2Page implements OnInit {
+  public factura!: Factura;
 
-  constructor() {}
+  constructor(
+    private storage: StorageService,
+    private router: Router
+  ) {}
 
+  async ngOnInit() {
+    this.factura = await this.storage.get('factura_actual');
+  }
+
+  async ionViewWillEnter() {
+    this.factura = await this.storage.get('factura_actual');
+  }
+
+  verLinea(linea: Linea) {
+    this.storage.set('linea_actual', linea);
+    this.router.navigate(['/linea-detalle']);
+  }
 }
