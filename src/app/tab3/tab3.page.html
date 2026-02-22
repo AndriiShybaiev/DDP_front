@@ -1,46 +1,79 @@
-<ion-header [translucent]="true">
+<ion-header class="ion-no-border">
   <ion-toolbar color="primary">
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/tabs/tab1"></ion-back-button>
+      <ion-back-button defaultHref="/tabs/tab1" text="Volver"></ion-back-button>
     </ion-buttons>
-    <ion-title>
-      Detalles de Reserva
-    </ion-title>
+    <ion-title>Detalles de Reserva</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <div *ngIf="reserva">
-    <ion-card>
+<ion-content class="ion-padding">
+  <div *ngIf="reserva" class="details-container">
+    <ion-card mode="md" class="summary-card">
       <ion-card-header>
-        <ion-card-title>Reserva #{{ reserva.id }}</ion-card-title>
-        <ion-card-subtitle>Estado: {{ getEstadoReserva(reserva.estado) }}</ion-card-subtitle>
+        <div class="card-header-flex">
+          <ion-icon name="calendar" color="secondary" size="large"></ion-icon>
+          <div class="header-text">
+            <ion-card-subtitle>RESERVA</ion-card-subtitle>
+            <ion-card-title>ID #{{ reserva.id }}</ion-card-title>
+          </div>
+          <ion-badge [color]="reserva.estado === 1 ? 'success' : (reserva.estado === 2 ? 'danger' : 'primary')" mode="md" class="status-badge">
+            {{ getEstadoReserva(reserva.estado) | uppercase }}
+          </ion-badge>
+        </div>
       </ion-card-header>
+
       <ion-card-content>
-        <p><strong>Desde:</strong> {{ reserva.inicio | date:'short' }}</p>
-        <p><strong>Hasta:</strong> {{ reserva.final | date:'short' }}</p>
+        <div class="dates-grid">
+          <div class="date-box">
+            <ion-icon name="arrow-forward-circle-outline" color="success"></ion-icon>
+            <div class="date-info">
+              <h3>RECOGIDA</h3>
+              <p>{{ reserva.inicio | date:'mediumDate' }}</p>
+              <p class="time">{{ reserva.inicio | date:'shortTime' }}</p>
+            </div>
+          </div>
+          <div class="date-divider">
+            <ion-icon name="ellipsis-vertical"></ion-icon>
+          </div>
+          <div class="date-box">
+            <ion-icon name="arrow-back-circle-outline" color="danger"></ion-icon>
+            <div class="date-info">
+              <h3>DEVOLUCIÓN</h3>
+              <p>{{ reserva.final | date:'mediumDate' }}</p>
+              <p class="time">{{ reserva.final | date:'shortTime' }}</p>
+            </div>
+          </div>
+        </div>
       </ion-card-content>
     </ion-card>
 
-    <ion-list-header>
-      <ion-label color="primary">Coches Reservados</ion-label>
-    </ion-list-header>
+    <div class="section-title">
+      <ion-icon name="car-sport"></ion-icon>
+      <h3>Vehículos en esta Reserva</h3>
+    </div>
 
-    <ion-list>
-      <ion-item *ngFor="let coche of reserva.coches">
-        <ion-icon name="car-outline" slot="start"></ion-icon>
-        <ion-label>
-          <h2>Licencia: {{ coche.numLicencia }}</h2>
-          <p>Categoría: {{ getCategoriaCoche(coche.categoria) }}</p>
-        </ion-label>
-      </ion-item>
+    <ion-list lines="none" mode="md" class="vehicles-list">
+      <ion-card *ngFor="let coche of reserva.coches" class="vehicle-card" mode="md">
+        <ion-item lines="none">
+          <div class="vehicle-icon-box" slot="start">
+            <ion-icon name="car-sport"></ion-icon>
+          </div>
+          <ion-label>
+            <h2>Licencia: {{ coche.numLicencia }}</h2>
+            <p>Categoría: <strong>{{ getCategoriaCoche(coche.categoria) }}</strong></p>
+          </ion-label>
+          <ion-badge slot="end" color="light">{{ getCategoriaCoche(coche.categoria) }}</ion-badge>
+        </ion-item>
+      </ion-card>
     </ion-list>
   </div>
 
-  <div *ngIf="!reserva" class="ion-padding ion-text-center">
-    <ion-text color="medium">
-      <p>No se ha seleccionado ninguna reserva.</p>
-    </ion-text>
-    <ion-button routerLink="/tabs/tab1">Volver al Perfil</ion-button>
+  <div *ngIf="!reserva" class="empty-state">
+    <ion-icon name="calendar-outline" color="medium" size="large"></ion-icon>
+    <p>No se ha seleccionado ninguna reserva.</p>
+    <ion-button routerLink="/tabs/tab1" fill="outline" shape="round">
+      Volver al Perfil
+    </ion-button>
   </div>
 </ion-content>

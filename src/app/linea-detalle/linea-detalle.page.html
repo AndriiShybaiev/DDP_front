@@ -1,39 +1,53 @@
-<ion-header [translucent]="true">
+<ion-header class="ion-no-border">
   <ion-toolbar color="primary">
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/tabs/tab2"></ion-back-button>
+      <ion-back-button defaultHref="/tabs/tab2" text="Factura"></ion-back-button>
     </ion-buttons>
     <ion-title>Detalle de Línea</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" class="ion-padding">
-  <div *ngIf="linea">
-    <ion-card>
-      <ion-card-header>
-        <ion-card-title>Línea #{{ linea.numLinea }}</ion-card-title>
-      </ion-card-header>
+<ion-content class="ion-padding">
+  <div *ngIf="linea" class="details-container">
+    <div class="line-header ion-text-center ion-margin-bottom">
+      <div class="icon-circle">
+        <ion-icon name="list-outline" color="primary"></ion-icon>
+      </div>
+      <h2>Línea #{{ linea.numLinea }}</h2>
+      <p>Detalle del concepto facturado</p>
+    </div>
+
+    <ion-card mode="md" class="detail-card">
       <ion-card-content>
-        <ion-list>
-          <ion-item>
-            <ion-label>
-              <h2>Número de Línea</h2>
-              <p>{{ linea.numLinea }}</p>
-            </ion-label>
-          </ion-item>
-          <ion-item>
-            <ion-label>
-              <h2>Precio</h2>
-              <p>{{ linea.precio | currency:'EUR' }}</p>
-            </ion-label>
-          </ion-item>
-        </ion-list>
+        <ion-item lines="inset" mode="md">
+          <ion-icon name="hashtag" slot="start" color="medium"></ion-icon>
+          <ion-label>
+            <h3>Identificador de Línea</h3>
+            <p>{{ linea.numLinea }}</p>
+          </ion-label>
+        </ion-item>
+
+        <ion-item lines="none" mode="md">
+          <ion-icon name="cash-outline" slot="start" color="success"></ion-icon>
+          <ion-label>
+            <h3>Precio del Servicio</h3>
+            <p class="price-text">{{ linea.precio | currency:'EUR' }}</p>
+          </ion-label>
+        </ion-item>
       </ion-card-content>
     </ion-card>
+
+    <div class="info-box ion-margin-top">
+      <ion-icon name="information-circle-outline" color="primary"></ion-icon>
+      <p>Este importe ya incluye los impuestos correspondientes aplicables al servicio de alquiler.</p>
+    </div>
   </div>
 
-  <div *ngIf="!linea" class="ion-text-center">
+  <div *ngIf="!linea" class="empty-state">
+    <ion-icon name="alert-circle-outline" color="medium"></ion-icon>
     <p>No hay detalles de línea disponibles.</p>
-    <ion-button routerLink="/tabs/tab2">Volver a Factura</ion-button>
+    <ion-button routerLink="/tabs/tab2" fill="solid" shape="round">
+      Volver a Factura
+    </ion-button>
   </div>
 </ion-content>

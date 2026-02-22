@@ -1,0 +1,109 @@
+.summary-card {
+  margin: 0 0 24px 0;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+
+  .card-header-flex {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+
+    .header-text {
+      flex: 1;
+
+      ion-card-subtitle {
+        letter-spacing: 1px;
+        font-weight: 600;
+      }
+
+      ion-card-title {
+        font-weight: 800;
+        font-size: 24px;
+      }
+    }
+
+    .status-badge {
+      padding: 6px 12px;
+      border-radius: 8px;
+    }
+  }
+
+  .info-item {
+    --padding-start: 0;
+    margin-bottom: 8px;
+
+    h3 {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--ion-color-medium);
+    }
+
+    p {
+      font-size: 16px;
+      font-weight: 500;
+    }
+  }
+
+  .total-item {
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px dashed var(--ion-color-light);
+
+    .total-price {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--ion-color-primary);
+    }
+  }
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 4px 16px;
+  color: var(--ion-color-dark);
+
+  h3 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 700;
+  }
+}
+
+.details-list {
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.04);
+
+  ion-item {
+    --padding-start: 16px;
+    --padding-end: 16px;
+
+    h2 {
+      font-weight: 600;
+    }
+  }
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 80%;
+  text-align: center;
+  color: var(--ion-color-medium);
+
+  ion-icon {
+    font-size: 64px;
+    margin-bottom: 16px;
+    opacity: 0.5;
+  }
+
+  p {
+    font-size: 18px;
+    margin-bottom: 24px;
+  }
+}
