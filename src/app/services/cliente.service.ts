@@ -1,0 +1,83 @@
+import { Injectable } from '@angular/core';
+import {Observable, of, throwError} from 'rxjs';
+import {HttpClient, HttpHeaders, HttpResponse} from '@angular/common/http';
+import {catchError} from 'rxjs/operators';
+
+
+import {Cliente, Reserva} from '../models/cliente.model';
+
+import { StorageService } from './storage.service';
+
+const httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type':  'application/json',
+      'Access-Control-Allow-Origin' : 'http://localhost:8100'
+    })
+  };
+
+  const httpOptionsLogin = {
+    headers: new HttpHeaders({
+      'Content-Type':  'application/json'
+    })
+  };
+
+  const httpOptionsLoginText = {
+    headers: new HttpHeaders({
+      'Content-Type':  'application/json'
+    }),
+    responseType: 'text' as const
+  };
+
+@Injectable({
+  providedIn: 'root'
+})
+
+export class ClienteService {
+
+
+  private readonly HS_API_URL = 'https://localhost:44358/api';
+  private token!: string;
+  private headers = new HttpHeaders;
+  private cliente!: Cliente;
+
+  constructor(private http: HttpClient,
+    private storageService: StorageService ) {
+
+
+  }
+
+  public RecuperarToken (): Promise<string | null> {
+
+     return this.storageService.get('token');
+  }
+
+
+
+  public login(dni: string, password: string): Observable<string> {
+
+    let cli:Cliente = {dni: dni, pass: password};
+
+     return (this.http.post(`${this.HS_API_URL}/ClienteAnonimo/Login`, cli, httpOptionsLoginText) as Observable<string>)
+    .pipe(
+        catchError((err) => {
+          console.log("Error en el login");
+          console.error(err);
+          return throwError(()=>err);
+        }
+        )
+      );
+  }
+
+  public getClientePorDNI(token: string): Observable<Cliente> {
+    this.headers = new HttpHeaders({ 'Authorization': token });
+    return this.http.get<Cliente>(`${this.HS_API_URL}/Cliente`, { headers: this.headers });
+  }
+
+  public dameReservas(idCliente: string): Observable<Reserva[]> {
+    return this.http.get<Reserva[]>(`${this.HS_API_URL}/Reserva/DameReservas`, {
+      params: { idCliente }
+    });
+  }
+
+}
+

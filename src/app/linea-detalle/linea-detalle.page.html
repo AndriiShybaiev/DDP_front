@@ -1,0 +1,39 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/tab2"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Detalle de Línea</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  <div *ngIf="linea">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Línea #{{ linea.numLinea }}</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-list>
+          <ion-item>
+            <ion-label>
+              <h2>Número de Línea</h2>
+              <p>{{ linea.numLinea }}</p>
+            </ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-label>
+              <h2>Precio</h2>
+              <p>{{ linea.precio | currency:'EUR' }}</p>
+            </ion-label>
+          </ion-item>
+        </ion-list>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <div *ngIf="!linea" class="ion-text-center">
+    <p>No hay detalles de línea disponibles.</p>
+    <ion-button routerLink="/tabs/tab2">Volver a Factura</ion-button>
+  </div>
+</ion-content>
